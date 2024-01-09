@@ -31,8 +31,6 @@ export const PUT = async (request, { params }) => {
       (userById.password = password),
       (userById.about = about),
       (userById.profileURL = profileURL);
-
-    console.log(userById);
     const updatedUser = await userById.save();
     return NextResponse.json(updatedUser);
   } catch (error) {

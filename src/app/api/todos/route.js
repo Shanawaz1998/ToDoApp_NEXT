@@ -6,17 +6,19 @@
 
 import { NextResponse } from "next/server";
 import { Task } from "@/models/task";
+import { getResponseMessage } from "@/helper/reponseMessage";
+import { connectDb } from "@/helper/db";
+
+await connectDb();
 
 //To get all the tasks
 export const GET = async (request) => {
-  const allTasks = await Task.find();
   try {
+    const allTasks = await Task.find();
     return NextResponse.json(allTasks);
   } catch (error) {
-    return NextResponse.json({
-      status: false,
-      message: "Failed to get all the tasks",
-    });
+    console.log("Error", error);
+    return getResponseMessage("Failed to get all the tasks", 404, false);
   }
 };
 
