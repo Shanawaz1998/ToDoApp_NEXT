@@ -1,5 +1,9 @@
+import { connectDb } from "@/helper/db";
 import { User } from "@/models/user";
 import { NextResponse } from "next/server";
+import bcrypt from "bcrypt";
+
+await connectDb();
 
 //To Get all the users
 export const GET = async (request) => {
@@ -18,9 +22,9 @@ export const GET = async (request) => {
 //Create USer
 export const POST = async (request) => {
   const { name, email, password, about, profileURL } = await request.json();
-  console.log({ name, email, password, about, profileURL });
 
   const user = new User({ name, email, password, about, profileURL });
+  user.password = await bcrypt.hash(password, 10);
   try {
     const userCreated = await user.save();
     const response = NextResponse.json(user, {
@@ -28,10 +32,15 @@ export const POST = async (request) => {
     });
     return response;
   } catch (error) {
-    console.log("Error form route.js", error);
-    return NextResponse.json({
-      message: "Failed to create user!!--",
-      status: false,
-    });
+    console.log("Error form route.js");
+    return NextResponse.json(
+      {
+        message: "Failed to create user!!",
+        status: false,
+      },
+      {
+        status: 500,
+      }
+    );
   }
 };

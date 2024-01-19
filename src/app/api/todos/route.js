@@ -8,6 +8,7 @@ import { NextResponse } from "next/server";
 import { Task } from "@/models/task";
 import { getResponseMessage } from "@/helper/reponseMessage";
 import { connectDb } from "@/helper/db";
+import jwt from "jsonwebtoken";
 
 await connectDb();
 
@@ -24,9 +25,12 @@ export const GET = async (request) => {
 
 //Add the task
 export const POST = async (request) => {
-  const { title, content, userId } = await request.json();
-  const task = new Task({ title, content, userId });
+  const { title, content, userId, status } = await request.json();
+  const authToken = request.cookies.get("authToken")?.value;
+  const data = jwt.verify(authToken, process.env.JWT_KEY);
+  console.log("todos", data);
   try {
+    const task = new Task({ title, content, userId: data._id, status });
     await task.save({ title, content, userId });
     return NextResponse.json(
       { title, content, userId },

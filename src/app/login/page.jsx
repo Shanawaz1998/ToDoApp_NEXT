@@ -1,12 +1,12 @@
 import React from "react";
-import ShowTask from "./ShowTask";
+import LoginPage from "./LoginPage";
 
 export const metadata = {
-  title: "Show Task : Work Manager",
+  title: "Login : Work Manager",
 };
 
 function page() {
-  return <ShowTask />;
+  return <LoginPage />;
 }
 
 export default page;
