@@ -16,6 +16,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <link
+          href="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.10.3/dist/sweetalert2.min.css
+"
+          rel="stylesheet"
+        />
+      </head>
       <body className={inter.className}>
         <UserProvider>
           <ToastContainer />

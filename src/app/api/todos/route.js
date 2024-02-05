@@ -1,9 +1,3 @@
-//  title: ,
-//  content: ,
-//   addedDate:,
-//   status: ,
-//   userId: ,
-
 import { NextResponse } from "next/server";
 import { Task } from "@/models/task";
 import { getResponseMessage } from "@/helper/reponseMessage";

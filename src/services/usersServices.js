@@ -28,3 +28,20 @@ export const logout = async () => {
     .then((response) => response.data);
   return result;
 };
+
+//Admin Accedd
+
+export const getAllUsers = async () => {
+  const result = await httpAxios
+    .get("/api/user")
+    .then((response) => response.data);
+  return result;
+};
+
+export const adminLogin = async () => {
+  const result = await httpAxios
+    .post("/api/adminLogin")
+    .then((response) => response.data)
+    .catch((error) => console.log("Error", error));
+  return result;
+};

@@ -9,18 +9,14 @@ import { toast } from "react-toastify";
 function ShowTask() {
   const [tasks, settasks] = useState([]);
   const context = useContext(UserContext);
-  console.log("User context ", context);
 
   useEffect(() => {
     context.user && loadTasks(context.user._id);
-    console.log("id", context.user?._id);
   }, [context.user]);
 
   async function loadTasks(userId) {
     try {
-      console.log("User Id", userId);
       const result = await getTaskOfUser(userId);
-      console.log("Result from show Task", result);
       settasks([...result].reverse());
     } catch (error) {
       console.log("Error", error);

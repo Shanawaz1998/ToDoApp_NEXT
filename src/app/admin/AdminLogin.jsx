@@ -1,14 +1,12 @@
 "use client";
-
-import { loginUser } from "@/services/usersServices";
-import React, { useContext, useState } from "react";
+import { NextResponse } from "next/server";
+import React from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
-import UserContext from "@/context/userContext";
 
-function LoginPage() {
-  const router = useRouter();
-  const context = useContext(UserContext);
+import { adminLogin } from "@/services/usersServices";
+
+function AdminLogin() {
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -16,29 +14,50 @@ function LoginPage() {
 
   const submitForm = async (event) => {
     event.preventDefault();
-    console.log("Result", loginData);
+    console.log("Form subited", loginData.email);
     if (loginData.email.trim() === "" || loginData.password.trim() === "") {
+      console.log("Empty");
       toast.warning("Please enter all the required fields", {
         position: "bottom-center",
       });
     }
-
-    try {
-      const result = await loginUser(loginData);
-      context.setUser(result.user);
-      console.log("Result from login page", result);
-      toast.success("You are Successfully LoggedIn!!!", {
-        position: "top-center",
-      });
-      router.push("/");
-    } catch (error) {
-      console.log("Error from js", error);
-      toast.error("Error - " + error.response.data.message, {
-        position: "top-center",
+    if (
+      loginData.email.trim() != "admin@gmail.com" ||
+      loginData.password.trim() != "admin"
+    ) {
+      console.log("Invalid username or password");
+      toast.error("Invalid Email or password", {
+        position: "bottom-center",
       });
     }
 
-    //Redirection pending
+    //Cookies can be only used in the server components
+    if (
+      loginData.email.trim() === "admin@gmail.com" &&
+      loginData.password.trim() === "admin"
+    ) {
+      adminLogin();
+      //   console.log("Logged in");
+      //   cookies().set("AdminAuth", loginData.email);
+      //   toast.success("Welcome Admin", {
+      //     position: "bottom-center",
+      //   });
+    }
+
+    // try {
+    //   const result = await getAllUsers();
+    //   context.setUser(result.user);
+    //   console.log("Result from login page", result);
+    //   toast.success("You are Successfully LoggedIn!!!", {
+    //     position: "top-center",
+    //   });
+    //   router.push("/");
+    // } catch (error) {
+    //   console.log("Error from js", error);
+    //   toast.error("Error - " + error.response.data.message, {
+    //     position: "top-center",
+    //   });
+    // }
   };
 
   const resetFields = () => {
@@ -47,14 +66,15 @@ function LoginPage() {
       password: "",
     });
   };
+
   return (
     <div className="grid grid-cols-12">
       <div className="col-span-4 col-start-5 ">
         <div className="py-5"></div>
 
-        <h1 className="text-3xl text-center">Login Here </h1>
+        <h1 className="text-3xl text-center">Admin Login Here </h1>
 
-        <form action="#!" onSubmit={submitForm}>
+        <form onSubmit={submitForm}>
           <div className="mt-3">
             <label
               htmlFor="user_email"
@@ -122,4 +142,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default AdminLogin;
