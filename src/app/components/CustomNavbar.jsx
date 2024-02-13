@@ -65,6 +65,9 @@ function CustomNavbar() {
                 <Link href="/login">Login</Link>
               </li>
               <li>
+                <Link href="/authLogin">Auth Login</Link>
+              </li>
+              <li>
                 <Link href="/signUp">Sign Up</Link>
               </li>
             </>

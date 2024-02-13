@@ -116,6 +116,7 @@ function LoginPage() {
             </button>
           </div>
         </form>
+        <button>Login with Google</button>
       </div>
       {/* {JSON.stringify(loginData)} */}
     </div>
